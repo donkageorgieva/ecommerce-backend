@@ -1,18 +1,5 @@
-exports.getCart = (req, res) => {
-  res.status(200).json({
-    itemsAmount: 0,
-    totalPrice: 0,
-    items: [],
-  });
+exports.getCart = (req, res, next) => {
+  res.status(200).json(req.user.cart);
 };
 
-exports.postCart = (req, res) => {
-  res.status(200).json({
-    cart: {
-      itemsAmount: req.body.itemsAmount,
-      totalPrice: req.body.totalPrice,
-      items: req.body.items,
-    },
-    message: "Success!",
-  });
-};
+exports.postCart = (req, res) => {};

@@ -1,6 +1,5 @@
-const sneakers = require("../models/sneakers");
 const Sneaker = require("../models/sneakers");
-const mongoose = require("mongoose");
+
 exports.addSneakers = (req, res, next) => {
   const sneakers = req.body.sneakers.map((s) => {
     return new Sneaker({
