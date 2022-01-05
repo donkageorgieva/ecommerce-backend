@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Sneakers = require("./sneakers");
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
   email: {
@@ -39,4 +39,5 @@ const userSchema = new Schema({
   },
 });
 
+userSchema.methods.addToCart = function (product) {};
 module.exports = mongoose.model("User", userSchema);

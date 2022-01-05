@@ -8,13 +8,9 @@ const authRoutes = require("./routes/auth");
 const User = require("./models/user");
 const app = express();
 
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -32,7 +28,6 @@ app.use("/cart", cartRoutes);
 app.use("/auth", authRoutes);
 
 app.use((err, req, res, next) => {
-  console.log(err);
   const status = err.statusCode || 500;
   const message = err.message;
   const data = err.data;
