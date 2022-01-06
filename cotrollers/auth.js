@@ -53,7 +53,6 @@ exports.login = (req, res, next) => {
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {
-        console.log(email);
         const error = new Error("User does not exist");
         error.statusCode = 404;
         throw error;

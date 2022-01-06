@@ -6,13 +6,25 @@ exports.getCart = (req, res, next) => {
 };
 
 exports.postCart = (req, res, next) => {
-  const chosenSize = req.body.chosenSize;
-  const amountInCart = req.body.amountInCart;
+  const cart = req.body.cart;
+  User.findById(req.userId)
+    .then((user) => {
+      console.log(cart);
+    })
+    .catch((err) => {
+      err.statusCode = 401;
+      throw err;
+    });
+};
+
+exports.postCartItem = (req, res, next) => {
+  // const chosenSize = req.body.chosenSize;
+  // const amountInCart = req.body.amountInCart;
   Sneakers.findById(req.body.itemId)
     .then((sneaker) => {
       User.findById(req.userId)
         .then((user) => {
-          console.log(amountInCart);
+          console.log(req.body);
         })
         .catch((err) => {
           err.statusCode = 404;
