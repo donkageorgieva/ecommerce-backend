@@ -2,14 +2,21 @@ const Sneakers = require("../models/sneakers");
 const User = require("../models/user");
 const express = require("express");
 exports.getCart = (req, res, next) => {
-  // res.status(200).json(req.user.cart);
+  User.findById(req.userId)
+    .then((user) => {
+      res.send(user.cart);
+    })
+    .catch((err) => {
+      err.statusCode = 401;
+      throw err;
+    });
 };
 
 exports.postCart = (req, res, next) => {
   const cart = req.body.cart;
   User.findById(req.userId)
     .then((user) => {
-      console.log(cart);
+      user.setCart(cart);
     })
     .catch((err) => {
       err.statusCode = 401;

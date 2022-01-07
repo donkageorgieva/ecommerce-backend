@@ -38,6 +38,12 @@ const userSchema = new Schema({
     },
   },
 });
+userSchema.methods.setCart = function (cart) {
+  console.log("user,cart ", cart);
 
+  // this.cart = cart;
+  // this.save();
+  // console.log(this.cart);
+};
 userSchema.methods.addToCart = function (product) {};
 module.exports = mongoose.model("User", userSchema);
