@@ -12,10 +12,7 @@ router.put(
       .custom((value, { req }) => {
         return User.findOne({ email: value }).then((userDoc) => {
           if (userDoc) {
-            console.log(userDoc, "EXIST");
             return Promise.reject("Email already in use");
-          } else {
-            console.log(userDoc, "NOT");
           }
         });
       })

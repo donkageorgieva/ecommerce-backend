@@ -4,7 +4,9 @@ const express = require("express");
 exports.getCart = (req, res, next) => {
   User.findById(req.userId)
     .then((user) => {
-      res.send(user.cart);
+      user.cart.populate("items.itemId").then((result) => {
+        res.send(user.cart);
+      });
     })
     .catch((err) => {
       err.statusCode = 401;
@@ -16,7 +18,9 @@ exports.postCart = (req, res, next) => {
   const cart = req.body.cart;
   User.findById(req.userId)
     .then((user) => {
-      user.setCart(cart);
+      if (user) {
+        return user.setCart(cart);
+      }
     })
     .catch((err) => {
       err.statusCode = 401;
@@ -25,8 +29,6 @@ exports.postCart = (req, res, next) => {
 };
 
 exports.postCartItem = (req, res, next) => {
-  // const chosenSize = req.body.chosenSize;
-  // const amountInCart = req.body.amountInCart;
   Sneakers.findById(req.body.itemId)
     .then((sneaker) => {
       User.findById(req.userId)

@@ -19,11 +19,9 @@ const userSchema = new Schema({
           ref: "Sneaker",
         },
         amountInCart: {
-          required: true,
           type: Number,
         },
         chosenSize: {
-          required: true,
           type: Number,
         },
       },
@@ -39,11 +37,14 @@ const userSchema = new Schema({
   },
 });
 userSchema.methods.setCart = function (cart) {
-  console.log("user,cart ", cart);
-
-  // this.cart = cart;
-  // this.save();
-  // console.log(this.cart);
+  console.log(cart, "CARTTTTTTTTTTT");
+  this.cart = {
+    ...this.cart,
+    items: cart.items,
+    itemsAmount: cart.itemsAmount,
+    totalPrice: cart.totalPrice,
+  };
+  return this.save();
 };
 userSchema.methods.addToCart = function (product) {};
 module.exports = mongoose.model("User", userSchema);
