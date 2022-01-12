@@ -37,13 +37,28 @@ const userSchema = new Schema({
   },
 });
 userSchema.methods.setCart = function (cart) {
-  console.log(cart, "CARTTTTTTTTTTT");
+  const updatedCartItems = [...this.cart.items];
+  cart.items.forEach((item) => {
+    const newItemId = mongoose.Types.ObjectId(item.itemId);
+    const itemIndex = this.cart.items.findIndex(
+      (i) => i.itemId.toString() === newItemId.toString()
+    );
+    if (
+      itemIndex >= 0 &&
+      updatedCartItems[itemIndex].chosenSize === item.chosenSize
+    ) {
+      console.log("success", itemIndex);
+    } else {
+      console.log("NOPE", itemIndex);
+    }
+  });
   this.cart = {
     ...this.cart,
     items: cart.items,
     itemsAmount: cart.itemsAmount,
     totalPrice: cart.totalPrice,
   };
+
   return this.save();
 };
 userSchema.methods.addToCart = function (product) {};

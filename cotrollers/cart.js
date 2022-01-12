@@ -6,6 +6,7 @@ exports.getCart = (req, res, next) => {
     .then((user) => {
       user.cart.populate("items.itemId").then((result) => {
         res.send(user.cart);
+        console.log(user.cart, "userCart");
       });
     })
     .catch((err) => {
