@@ -38,18 +38,18 @@ const userSchema = new Schema({
 });
 userSchema.methods.setCart = function (cart) {
   const updatedCartItems = [...this.cart.items];
+  console.log(cart, "CART send");
   cart.items.forEach((item) => {
     const newItemId = mongoose.Types.ObjectId(item.itemId);
     const itemIndex = this.cart.items.findIndex(
       (i) => i.itemId.toString() === newItemId.toString()
     );
-    if (
-      itemIndex >= 0 &&
-      updatedCartItems[itemIndex].chosenSize === item.chosenSize
-    ) {
-      console.log("success", itemIndex);
+
+    if (itemIndex >= 0) {
+      updatedCartItems[itemIndex].amountInCart += item.amountInCart;
+      console.log(item);
     } else {
-      console.log("NOPE", itemIndex);
+      console.log(item);
     }
   });
   this.cart = {
