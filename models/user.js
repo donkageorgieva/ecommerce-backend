@@ -37,27 +37,39 @@ const userSchema = new Schema({
   },
 });
 userSchema.methods.setCart = function (cart) {
-  const updatedCartItems = [...this.cart.items];
-  console.log(cart, "CART send");
-  cart.items.forEach((item) => {
-    const newItemId = mongoose.Types.ObjectId(item.itemId);
-    const itemIndex = this.cart.items.findIndex(
-      (i) => i.itemId.toString() === newItemId.toString()
-    );
-
-    if (itemIndex >= 0) {
-      updatedCartItems[itemIndex].amountInCart += item.amountInCart;
-      console.log(item);
-    } else {
-      console.log(item);
-    }
-  });
-  this.cart = {
+  const updatedCart = {
     ...this.cart,
-    items: cart.items,
-    itemsAmount: cart.itemsAmount,
-    totalPrice: cart.totalPrice,
   };
+
+  console.log(cart.items.length, "LEEEEEEEEEEEEEEEENGTH");
+
+  if (cart.items.length > 0) {
+    console.log("IF STATEMENT");
+
+    cart.items.forEach((item) => {
+      const newItemId = mongoose.Types.ObjectId(item.itemId);
+      const itemIndex = this.cart.items.findIndex(
+        (i) => i.itemId.toString() === newItemId.toString()
+      );
+
+      if (itemIndex >= 0) {
+        updatedCart.items[itemIndex].amountInCart += item.amountInCart;
+        updatedCart.totalPrice +=
+          updatedCart.items[itemIndex].price *
+          updatedCart.items[itemIndex].amountInCart;
+        updatedCart.amountInCart += updatedCart.items[itemIndex].amountInCart;
+      } else {
+        console.log("else statement");
+        updatedCart.items.push(item);
+        updatedCart.totalPrice += item.amountInCart * item.price;
+        updatedCart.amountInCart += item.amountInCart;
+      }
+    });
+  }
+  console.log(cart.items.length, "length");
+  console.log(updatedCart, "updatedcart");
+
+  this.cart = updatedCart;
 
   return this.save();
 };
