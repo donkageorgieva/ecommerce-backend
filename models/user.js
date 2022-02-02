@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Sneakers = require("./sneakers");
 const Schema = mongoose.Schema;
+
 const userSchema = new Schema({
   email: {
     type: String,
@@ -41,11 +42,7 @@ userSchema.methods.setCart = function (cart) {
     ...this.cart,
   };
 
-  console.log(cart.items.length, "LEEEEEEEEEEEEEEEENGTH");
-
   if (cart.items.length > 0) {
-    console.log("IF STATEMENT");
-
     cart.items.forEach((item) => {
       const newItemId = mongoose.Types.ObjectId(item.itemId);
       const itemIndex = this.cart.items.findIndex(
@@ -59,19 +56,37 @@ userSchema.methods.setCart = function (cart) {
           updatedCart.items[itemIndex].amountInCart;
         updatedCart.amountInCart += updatedCart.items[itemIndex].amountInCart;
       } else {
-        console.log("else statement");
         updatedCart.items.push(item);
         updatedCart.totalPrice += item.amountInCart * item.price;
         updatedCart.amountInCart += item.amountInCart;
       }
     });
   }
-  console.log(cart.items.length, "length");
-  console.log(updatedCart, "updatedcart");
 
+  updatedCart.itemsAmount = cart.itemsAmount;
   this.cart = updatedCart;
 
   return this.save();
 };
-userSchema.methods.addToCart = function (product) {};
+userSchema.methods.addMore = function (productInfo) {
+  console.log(productInfo, "productInfo");
+  Sneakers.findById(productInfo.itemId)
+    .then((sneaker) => {
+      const updatedCart = {
+        ...this.cart,
+      };
+      const currItem = updatedCart.items.find((item) => {
+        return item.itemId.toString().trim("") == productInfo.itemId.trim("");
+      });
+      currItem.amountInCart = productInfo.amountInCart;
+      updatedCart.itemsAmount += 1;
+      updatedCart.totalPrice += sneaker.price;
+      this.cart = updatedCart;
+
+      return this.save();
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
 module.exports = mongoose.model("User", userSchema);

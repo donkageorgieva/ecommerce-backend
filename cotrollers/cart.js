@@ -5,8 +5,8 @@ exports.getCart = (req, res, next) => {
   User.findById(req.userId)
     .then((user) => {
       user.cart.populate("items.itemId").then((result) => {
-        res.send(user.cart);
-        console.log(user.cart, "userCart");
+        res.send(result);
+        console.log(result, "result");
       });
     })
     .catch((err) => {
@@ -30,18 +30,12 @@ exports.postCart = (req, res, next) => {
 };
 
 exports.postCartItem = (req, res, next) => {
-  Sneakers.findById(req.body.itemId)
-    .then((sneaker) => {
-      User.findById(req.userId)
-        .then((user) => {
-          console.log(req.body);
-        })
-        .catch((err) => {
-          err.statusCode = 404;
-          throw err;
-        });
+  User.findById(req.userId)
+    .then((user) => {
+      return user.addMore(req.body);
     })
     .catch((err) => {
-      console.log(err);
+      err.statusCode = 404;
+      throw err;
     });
 };
