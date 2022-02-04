@@ -4,7 +4,7 @@ const cartController = require("../cotrollers/cart");
 const isAuth = require("../middleware/isAuth");
 router.get("/", isAuth, cartController.getCart);
 // router.post("/set-cart", cartController.postCart);
-router.post("/", isAuth, cartController.postCart);
-router.post("/add-to-cart", isAuth, cartController.postCartItem);
+router.put("/", isAuth, cartController.postCart);
+// router.post("/add-to-cart", isAuth, cartController.postCartItem);
 
 module.exports = router;

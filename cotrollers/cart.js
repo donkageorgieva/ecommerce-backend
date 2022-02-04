@@ -29,13 +29,13 @@ exports.postCart = (req, res, next) => {
     });
 };
 
-exports.postCartItem = (req, res, next) => {
-  User.findById(req.userId)
-    .then((user) => {
-      return user.addMore(req.body);
-    })
-    .catch((err) => {
-      err.statusCode = 404;
-      throw err;
-    });
-};
+// exports.postCartItem = (req, res, next) => {
+//   User.findById(req.userId)
+//     .then((user) => {
+//       return user.addMore(req.body);
+//     })
+//     .catch((err) => {
+//       err.statusCode = 404;
+//       throw err;
+//     });
+// };

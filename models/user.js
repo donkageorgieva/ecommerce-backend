@@ -44,49 +44,33 @@ userSchema.methods.setCart = function (cart) {
 
   if (cart.items.length > 0) {
     cart.items.forEach((item) => {
-      const newItemId = mongoose.Types.ObjectId(item.itemId);
-      const itemIndex = this.cart.items.findIndex(
-        (i) => i.itemId.toString() === newItemId.toString()
-      );
+      if (!item) {
+        return;
+      }
 
-      if (itemIndex >= 0) {
-        updatedCart.items[itemIndex].amountInCart += item.amountInCart;
-        updatedCart.totalPrice +=
-          updatedCart.items[itemIndex].price *
-          updatedCart.items[itemIndex].amountInCart;
-        updatedCart.amountInCart += updatedCart.items[itemIndex].amountInCart;
+      const itemInCart = updatedCart.items.find((i) => {
+        return (
+          i.itemId.toString().trim(" ") === item.itemId.toString().trim(" ")
+        );
+      });
+
+      if (itemInCart !== undefined) {
+        console.log("in cart");
+        itemInCart.amountInCart = item.amountInCart;
       } else {
+        console.log("not in cart");
         updatedCart.items.push(item);
-        updatedCart.totalPrice += item.amountInCart * item.price;
-        updatedCart.amountInCart += item.amountInCart;
       }
     });
   }
 
   updatedCart.itemsAmount = cart.itemsAmount;
+  updatedCart.totalPrice = cart.totalPrice;
   this.cart = updatedCart;
 
-  return this.save();
+  return this.save().then((result) => {
+    console.log(result, "ressss");
+  });
 };
-userSchema.methods.addMore = function (productInfo) {
-  console.log(productInfo, "productInfo");
-  Sneakers.findById(productInfo.itemId)
-    .then((sneaker) => {
-      const updatedCart = {
-        ...this.cart,
-      };
-      const currItem = updatedCart.items.find((item) => {
-        return item.itemId.toString().trim("") == productInfo.itemId.trim("");
-      });
-      currItem.amountInCart = productInfo.amountInCart;
-      updatedCart.itemsAmount += 1;
-      updatedCart.totalPrice += sneaker.price;
-      this.cart = updatedCart;
 
-      return this.save();
-    })
-    .catch((err) => {
-      throw err;
-    });
-};
 module.exports = mongoose.model("User", userSchema);
