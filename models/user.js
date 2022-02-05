@@ -55,10 +55,8 @@ userSchema.methods.setCart = function (cart) {
       });
 
       if (itemInCart !== undefined) {
-        console.log("in cart");
         itemInCart.amountInCart = item.amountInCart;
       } else {
-        console.log("not in cart");
         updatedCart.items.push(item);
       }
     });
@@ -68,9 +66,7 @@ userSchema.methods.setCart = function (cart) {
   updatedCart.totalPrice = cart.totalPrice;
   this.cart = updatedCart;
 
-  return this.save().then((result) => {
-    console.log(result, "ressss");
-  });
+  return this.save();
 };
 
 module.exports = mongoose.model("User", userSchema);
