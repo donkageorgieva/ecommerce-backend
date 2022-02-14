@@ -21,7 +21,7 @@ exports.addSneakers = (req, res, next) => {
 exports.getAllSneakers = (req, res, next) => {
   Sneaker.find()
     .then((sneakers) => {
-      res.send(sneakers);
+      res.status(200).send(sneakers);
     })
     .catch((err) => {
       const error = new Error("404 not found");

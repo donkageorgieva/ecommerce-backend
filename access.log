@@ -1,0 +1,2 @@
+::1 - - [14/Feb/2022:12:04:48 +0000] "OPTIONS /items/sneakers HTTP/1.1" 200 8 "http://localhost:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Mobile Safari/537.36"
+::1 - - [14/Feb/2022:12:04:48 +0000] "GET /items/sneakers HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Mobile Safari/537.36"

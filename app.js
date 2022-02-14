@@ -2,12 +2,26 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const sneakerRoutes = require("./routes/sneakers");
-
 const cartRoutes = require("./routes/cart");
 const authRoutes = require("./routes/auth");
-const User = require("./models/user");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const fs = require("fs");
+const path = require("path");
 const app = express();
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  {
+    flags: "a",
+  }
+);
+app.use(helmet());
 
+app.use(
+  morgan("combined", {
+    stream: accessLogStream,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -23,7 +37,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/items", sneakerRoutes);
-
 app.use("/cart", cartRoutes);
 app.use("/auth", authRoutes);
 
@@ -36,10 +49,10 @@ app.use((err, req, res, next) => {
 });
 mongoose
   .connect(
-    `mongodb+srv://donyg:${process.env.PASSWORD}@sneakers.y0hjb.mongodb.net/shop?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@sneakers.y0hjb.mongodb.net/${process.env.DEFAULT_DB}`
   )
   .then((result) => {
-    app.listen(8080);
+    app.listen(process.env.PORT || 8080);
   })
   .catch((err) => {
     throw err;
