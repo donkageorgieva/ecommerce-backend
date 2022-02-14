@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const sneakerRoutes = require("./routes/sneakers");
-const reviewRoutes = require("./routes/reviews");
+
 const cartRoutes = require("./routes/cart");
 const authRoutes = require("./routes/auth");
 const User = require("./models/user");
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/items", sneakerRoutes);
-app.use("/item", reviewRoutes);
+
 app.use("/cart", cartRoutes);
 app.use("/auth", authRoutes);
 
@@ -42,5 +42,5 @@ mongoose
     app.listen(8080);
   })
   .catch((err) => {
-    console.log(err);
+    throw err;
   });

@@ -6,7 +6,7 @@ const { validationResult } = require("express-validator");
 var bcrypt = require("bcryptjs");
 exports.signup = (req, res, next) => {
   const errors = validationResult(req);
-  console.log(errors);
+
   if (!errors.isEmpty()) {
     const error = new Error("validation failed");
     error.statusCode = 422;
@@ -35,7 +35,6 @@ exports.signup = (req, res, next) => {
       return user.save();
     })
     .then((result) => {
-      console.log(result);
       res.status(201).json({ message: "User created", userId: result._id });
     })
     .catch((err) => {

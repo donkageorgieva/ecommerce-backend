@@ -6,7 +6,6 @@ exports.getCart = (req, res, next) => {
     .then((user) => {
       user.cart.populate("items.itemId").then((result) => {
         res.send(result);
-        console.log(result, "result");
       });
     })
     .catch((err) => {
@@ -28,14 +27,3 @@ exports.postCart = (req, res, next) => {
       throw err;
     });
 };
-
-// exports.postCartItem = (req, res, next) => {
-//   User.findById(req.userId)
-//     .then((user) => {
-//       return user.addMore(req.body);
-//     })
-//     .catch((err) => {
-//       err.statusCode = 404;
-//       throw err;
-//     });
-// };

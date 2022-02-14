@@ -38,7 +38,7 @@ exports.getSpecificSneakers = (req, res, next) => {
     .catch((err) => {
       const error = new Error("Item not found");
       error.statusCode = 404;
-      console.log(error);
+
       throw error;
     });
 };
