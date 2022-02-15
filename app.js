@@ -9,6 +9,7 @@ const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
 const app = express();
+const cors = require("cors");
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "access.log"),
   {
@@ -25,17 +26,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, DELETE, PATCH, PUT, OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  next();
-});
-
+app.use("*", cors(), next());
 app.use("/items", sneakerRoutes);
 app.use("/cart", cartRoutes);
 app.use("/auth", authRoutes);
