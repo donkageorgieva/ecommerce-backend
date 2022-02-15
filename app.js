@@ -26,7 +26,11 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("*", cors(), next());
+app.use((req, res, next) => {
+  "*", cors();
+  next();
+});
+
 app.use("/items", sneakerRoutes);
 app.use("/cart", cartRoutes);
 app.use("/auth", authRoutes);
