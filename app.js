@@ -52,7 +52,7 @@ mongoose
     `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@sneakers.y0hjb.mongodb.net/${process.env.DEFAULT_DB}`
   )
   .then((result) => {
-    app.listen(process.env.PORT || 8080);
+    app.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
     throw err;
