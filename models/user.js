@@ -62,8 +62,8 @@ userSchema.methods.setCart = function (cart) {
     });
   }
 
-  updatedCart.itemsAmount = cart.itemsAmount;
-  updatedCart.totalPrice = cart.totalPrice;
+  updatedCart.itemsAmount += cart.itemsAmount;
+  updatedCart.totalPrice += cart.totalPrice;
   this.cart = updatedCart;
 
   return this.save();

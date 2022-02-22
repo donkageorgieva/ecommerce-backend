@@ -17,6 +17,7 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
   const cart = req.body.cart;
+
   User.findById(req.userId)
     .then((user) => {
       if (user) {
