@@ -5,6 +5,7 @@ exports.getCart = (req, res, next) => {
   User.findById(req.userId)
     .then((user) => {
       user.cart.populate("items.itemId").then((result) => {
+        console.log(result);
         res.send(result);
       });
     })

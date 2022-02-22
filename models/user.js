@@ -38,6 +38,7 @@ const userSchema = new Schema({
   },
 });
 userSchema.methods.setCart = function (cart) {
+  console.log(cart, "cart recieved");
   const updatedCart = {
     ...this.cart,
   };
